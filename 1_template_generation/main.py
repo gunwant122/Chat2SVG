@@ -103,6 +103,7 @@ def main(cfg):
 
     # Task 2: Generate SVG Code
     svg_code = session.send("write_svg_code", file_path=msg_path(0))
+    print(f"SVG Code: {svg_code[:100]}")
     save(msg_path(0), svg_code)
     save_svg(cfg, svg_code, f"{cfg.target}_0")
     svg_path = f"{cfg.svg_dir}/{cfg.target}_0.svg"

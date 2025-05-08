@@ -24,7 +24,7 @@ export default function App() {
         scrollToBottom();
     }, [messages]);
 
-    const BASE_URL = 'http://07f2-34-125-32-11.ngrok-free.app';
+    const BASE_URL = 'https://80ee-34-125-201-143.ngrok-free.app';
 
     const startGeneration = (retryStage?: number) => {
         setError('');
