@@ -5,10 +5,13 @@ import mimetypes
 import requests
 from dotenv import load_dotenv
 from utils.util import read
+from google import genai
+from google.genai import types
 
 # Create a .env file in the project root directory and add your Anthropic API key as ANTHROPIC_API_KEY=<your_key>
 load_dotenv(dotenv_path=os.path.join("..", ".env"))
 api_key = os.getenv("OPENAI_API_KEY")
+gemini_api_key = os.getenv("GEMINI_API_KEY")
 
 
 class Session:
@@ -53,6 +56,9 @@ class Session:
         return prompt
 
     def _send(self, prompt: str, images: list[str] = [], file_path=None) -> str:
+        if self.model.startswith("gemini"):
+            return self._send_gemini(prompt, images, file_path)
+            
         payload = self._create_payload(prompt, images=images)
         if not os.path.exists(file_path):
             headers = {
@@ -60,8 +66,6 @@ class Session:
                 "Authorization": f"Bearer {api_key}"
             }
             print("Waiting for LLM to be generated")
-            # response = requests.post("https://api.anthropic.com/v1/messages", headers=headers, json=payload, timeout=(5, 120))  # Anthropic
-            # response = requests.post("https://aium.cc/v1/chat/completions", headers=headers, json=payload, timeout=(5, 120)) #If you are in mainland China, you can try aium.cc
             response = requests.post("https://api.gptsapi.net/v1/chat/completions", headers=headers, json=payload,
                                      timeout=(5, 120))  # WildCard
             print(f"LLM response: {response.text}")
@@ -76,6 +80,53 @@ class Session:
         self.past_messages.append({"role": "assistant", "content": response})
         self.past_responses.append(response)
         return response
+
+    def _send_gemini(self, prompt: str, images: list[str] = [], file_path=None) -> str:
+        if file_path and os.path.exists(file_path):
+            return read(file_path)
+
+        client = genai.Client(api_key=gemini_api_key)
+        
+        contents = [
+            types.Content(
+                role="user",
+                parts=[
+                    types.Part.from_text(text=prompt),
+                ],
+            ),
+        ]
+
+        # Add images if any
+        for image in images:
+            with open(image, "rb") as image_file:
+                image_data = base64.b64encode(image_file.read()).decode('utf-8')
+                contents[0].parts.append(
+                    types.Part.from_data(
+                        mime_type="image/png",
+                        data=image_data
+                    )
+                )
+
+        generate_content_config = types.GenerateContentConfig(
+            response_mime_type="text/plain",
+        )
+
+        try:
+            response = ""
+            for chunk in client.models.generate_content_stream(
+                model=self.model,
+                contents=contents,
+                config=generate_content_config,
+            ):
+                response += chunk.text
+                print(chunk.text, end="")
+            
+            self.past_messages.append({"role": "assistant", "content": response})
+            self.past_responses.append(response)
+            return response
+        except Exception as e:
+            print(f"$ --- Error Response from Gemini: {str(e)}\n")
+            return str(e)
 
     def _create_payload(self, prompt: str, images: list[str] = []):
         """Creates the payload for the API request."""

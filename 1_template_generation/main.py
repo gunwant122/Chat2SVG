@@ -20,7 +20,7 @@ def parse_arguments():
     parser.add_argument("--system_path", type=str, default="..")
     parser.add_argument("--viewbox", type=int, default=512)
     parser.add_argument("--refine_iter", type=int, default=2)
-    parser.add_argument("--model", type=str, default="claude-3-5-sonnet-20240620")
+    parser.add_argument("--model", type=str, default="gemini-2.5-pro-preview-05-06")
     parser.add_argument("--reward_model", type=str, default="ImageReward")
     parser.add_argument("--prompt", type=str, default="")
     args = parser.parse_args()

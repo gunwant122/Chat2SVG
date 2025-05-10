@@ -16,6 +16,6 @@ for target in "${targets[@]}"; do
         --target "${target}" \
         --output_path "$output_path" \
         --output_folder "$output_folder" \
-        --model "claude-3-5-sonnet-20240620" \
+        # --model "claude-3-5-sonnet-20240620" \
         --refine_iter 2
 done

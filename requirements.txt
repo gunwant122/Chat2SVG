@@ -34,3 +34,4 @@ tqdm
 rasterio
 clip @ git+https://github.com/openai/CLIP.git
 image-reward
+google-generativeai
