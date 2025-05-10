@@ -32,6 +32,9 @@ async def run_stage(websocket: WebSocket, stage: int, prompt: str):
     output_path = PROJECT_ROOT / "output"
     output_folder = "example_generation/" + target
 
+    # Create base output directory if it doesn't exist
+    os.makedirs(output_path, exist_ok=True)
+
     stage_scripts = {
         1: [
             sys.executable,
