@@ -24,7 +24,7 @@ env["PYTHONPATH"] = str(PROJECT_ROOT)
 env["PYTHONUNBUFFERED"] = "1"
 
 load_dotenv(dotenv_path=os.path.join(PROJECT_ROOT, ".env"))
-env["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+env["GEMINI_API_KEY"] = os.getenv("GEMINI_API_KEY")
 
 
 async def run_stage(websocket: WebSocket, stage: int, prompt: str):
