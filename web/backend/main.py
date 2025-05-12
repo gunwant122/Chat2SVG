@@ -44,7 +44,6 @@ async def run_stage(websocket: WebSocket, stage: int, prompt: str):
             "--output_path", str(output_path),
             "--output_folder", output_folder,
             "--system_path", str(PROJECT_ROOT),
-            "--model", "claude-3-5-sonnet-20240620",
             "--prompt", prompt
         ],
         2: [
