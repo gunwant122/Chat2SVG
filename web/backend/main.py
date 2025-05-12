@@ -44,7 +44,8 @@ async def run_stage(websocket: WebSocket, stage: int, prompt: str):
             "--output_path", str(output_path),
             "--output_folder", output_folder,
             "--system_path", str(PROJECT_ROOT),
-            "--prompt", prompt
+            "--prompt", prompt,
+            "--refine_iter", "2"
         ],
         2: [
             sys.executable,
