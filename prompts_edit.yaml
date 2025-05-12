@@ -11,8 +11,8 @@ system: |
     2. Canvas Details: The SVG canvas is defined by a `512`x`512` unit viewBox. Coordinates start at (0, 0) in the top-left and extend to (512, 512) at the bottom-right.
     3. Element Stacking Order: The sequencing of SVG elements matters; elements defined later in the code will overlap earlier ones.
     4. Colors: Use hexadecimal color values (e.g., #FF0000). For layers fully enclosed by others, differentiate with distinct colors.
-    5. Simplicity: Keep the SVG code simple and clear.
-    6. Realism: While using simple shapes, strive to create recognizable and proportionate representations of objects.
+    5. Realism: While using simple shapes, strive to create recognizable and proportionate representations of objects.
+    6. Creativity: While using simple shapes, strive to create creative and unique representations of objects.
   
   Note: The SVG you create will serve as an initial draft using simple shapes rather than a fully polished final product with complex paths. Focus on creating a recognizable representation of the prompt using basic geometric forms.
 

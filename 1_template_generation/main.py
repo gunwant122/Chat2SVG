@@ -102,7 +102,7 @@ def main(cfg):
     save(f"{cfg.msg_dir}/{cfg.target}_prompt", expanded_text_prompt)
 
     # Task 2: Generate SVG Code
-    svg_code = session.send("write_svg_code", file_path=msg_path(0))
+    svg_code = session.send("write_svg_code", {"expanded_prompt": expanded_text_prompt}, file_path=msg_path(0))
     print(f"SVG Code: {svg_code[:100]}")
     save(msg_path(0), svg_code)
     save_svg(cfg, svg_code, f"{cfg.target}_0")
