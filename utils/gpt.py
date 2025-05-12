@@ -62,26 +62,14 @@ class Session:
         return system_prompt, user_prompt
 
     def _send(self, prompt: tuple[str, str], images: list[str] = [], file_path=None) -> str:
-        if self.model.startswith("gemini"):
-            return self._send_gemini(prompt, images, file_path)
             
-        system_prompt, user_prompt = prompt
-        payload = self._create_payload(user_prompt, images=images)
         if not os.path.exists(file_path):
-            headers = {
-                "Content-Type": "application/json",
-                "Authorization": f"Bearer {api_key}"
-            }
-            print("Waiting for LLM to be generated")
-            response = requests.post("https://api.gptsapi.net/v1/chat/completions", headers=headers, json=payload,
-                                     timeout=(5, 120))  # WildCard
-            print(f"LLM response: {response.text}")
             try:
-                response = response.json()['choices'][0]['message']['content']
+                response = self._send_gemini(prompt, images, file_path)
             except:
-                print(f"$ --- Error Response: {response.json()}\n")
+                print(f"$ --- Error Response: {response}\n")
                 # Ensure we're returning a string, not a Response object
-                response = str(response.text)
+                response = str(response)
         else:
             response = read(file_path)
         self.past_messages.append({"role": "assistant", "content": response})
